@@ -1,0 +1,218 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Responsive Web UI Kit &amp; Dashboard Template based on Bootstrap">
+	<meta name="author" content="AdminKit">
+	<meta name="keywords" content="adminkit, bootstrap, web ui kit, dashboard template, admin template">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="shortcut icon" href="{% static 'img/icons/icon-48x48.png' %}" />
+
+	<title>Bug Tracker | Dashboard</title>
+
+	<link href="{% static 'css/app.css' %}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="wrapper">
+		<nav id="sidebar" class="sidebar">
+			<div class="sidebar-content js-simplebar">
+				<a class="sidebar-brand" href="{% url 'admin_dashboard' %}">
+					<span class="align-middle">Bug Tracker</span>
+					<span><p>Welcome {{request.user.username}}</p></span>
+				</a>
+
+				<ul class="sidebar-nav">
+					<li class="sidebar-header">
+						Pages
+					</li>
+					{% if request.user.admin %}
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{% url 'admin_dashboard' %}">
+							<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Admin Dashboard</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{% url 'project_dashboard' %}">
+							<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Projects Dashboard</span>
+						</a>
+					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{% url 'ticket_dashboard' %}">
+							<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Ticket Dashboard</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{% url 'ticket_create' %}">
+							<i class="align-middle" data-feather="user"></i> <span class="align-middle">Create Ticket</span>
+						</a>
+					</li>
+
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{% url 'create_project' %}">
+							<i class="align-middle" data-feather="user"></i> <span class="align-middle">Create Project</span>
+						</a>
+					</li>
+					{% endif %}
+
+
+					{% if request.user.groups.get.name == "project_manager" %}
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{% url 'pm_dashboard' %}">
+							<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">PM. Dashboard</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{% url 'create_project' %}">
+							<i class="align-middle" data-feather="user"></i> <span class="align-middle">Create Project</span>
+						</a>
+					</li>
+
+					
+					{% endif %}
+					
+					{% if request.user.submitter %}
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{% url 'sub_dashboard' %}">
+							<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Submitter Dashboard</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{% url 'ticket_create' %}">
+							<i class="align-middle" data-feather="user"></i> <span class="align-middle">Create Ticket</span>
+						</a>
+					</li>
+					{% endif %}
+
+					{% if request.user.groups.get.name == "developer" %}
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{% url 'dev_dashboard' %}">
+							<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dev. Dashboard</span>
+						</a>
+					</li>
+					{% endif %}
+
+
+					
+					
+				</ul>
+
+				<div class="sidebar-cta">
+					<div class="sidebar-cta-content">
+						Developed by <br>Ziyad Tareq
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<div class="main">
+			<nav class="navbar navbar-expand navbar-light navbar-bg">
+				<a class="sidebar-toggle d-flex">
+					<i class="hamburger align-self-center"></i>
+				</a>
+				<div class="navbar-collapse collapse">
+					<ul class="navbar-nav navbar-align">
+						<li class="nav-item dropdown">
+							<a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-toggle="dropdown">
+							</a>	
+						</li>
+						<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0" aria-labelledby="messagesDropdown">								
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-toggle="dropdown">
+							<i class="align-middle" data-feather="settings"></i>
+						</a>
+						<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown">
+							<img src="{{request.user.profile.image.url}}" class="avatar img-fluid rounded mr-1" alt="Charles Hall" /> <span class="text-dark">{{request.user.username}}</span>
+						</a>
+						<div class="dropdown-menu dropdown-menu-right">
+							<a class="dropdown-item" href="{% url 'profile' %}"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>
+
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="{% url 'account_settings' %}"><i class="align-middle mr-1" data-feather="user"></i> Settings & Privacy</a>
+							<a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="help-circle"></i> Help Center</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		{% block content %}
+
+		{% endblock %}
+
+		<footer class="footer">
+			<div class="container-fluid">
+				<div class="row text-muted">
+					<div class="col-6 text-left">
+					</div>
+					<div class="col-6 text-right">
+						<ul class="list-inline">
+							<li class="list-inline-item">
+								<a class="text-muted" href="#">Support</a>
+							</li>
+							<li class="list-inline-item">
+								<a class="text-muted" href="#">Help Center</a>
+							</li>
+							<li class="list-inline-item">
+								<a class="text-muted" href="#">Privacy</a>
+							</li>
+							<li class="list-inline-item">
+								<a class="text-muted" href="#">Terms</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+</div>
+
+<script src="{% static 'js/vendor.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script type="text/javascript">
+	$(document).ready( function () {
+		$('#table_id').DataTable();
+	} );
+</script>
+<script type="text/javascript">
+	$(document).ready( function () {
+		$('#projects_table_id').DataTable();
+	} );
+</script>
+<script type="text/javascript">
+	$(document).ready( function () {
+		$('#tickets').DataTable();
+	} );
+</script>
+<script type="text/javascript">
+	$(document).ready( function () {
+		$('#pms').DataTable();
+	} );
+</script>
+<script type="text/javascript">
+	$(document).ready( function () {
+		$('#ticket_dashboard').DataTable();
+	} );
+</script>
+</body>
+</html>

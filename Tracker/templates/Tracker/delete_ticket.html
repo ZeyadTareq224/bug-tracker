@@ -1,0 +1,32 @@
+{% extends 'users/base.html' %}
+{% block content %}
+<main class="content">
+	<div class="container-fluid p-0">
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title mb-0">Delete Ticket "{{ticket.title}}"</h5>
+					</div>
+					<div class="card-body">
+						<form method="POST">
+							{% csrf_token %}
+							<p class="alert alert-danger p-2">Note: this action cannot be reversed!!</p>
+							<button class="btn btn-danger">Delete</button>
+							{% if request.user.admin %}
+							<a class="btn btn-info" href="{% url 'ticket_dashboard' %}">Cancel</a>
+
+							{% elif request.user.submitter %}
+
+							<a class="btn btn-info" href="{% url 'ticket_details' ticket.id %}">Cancel</a>
+							{% endif %}
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</main>
+{% endblock %}

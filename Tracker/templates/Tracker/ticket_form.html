@@ -1,0 +1,31 @@
+{% extends 'users/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<main class="content">
+	<div class="container-fluid p-0">
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title mb-0">Ticket Management</h5>
+					</div>
+					<div class="card-body">
+						<form method="POST">
+							{% csrf_token %}
+							{{form|crispy}}
+							<button class="btn btn-primary">Submit</button>
+							{% if request.user.admin %}
+							<a class="btn btn-outline-secondary" href="{% url 'ticket_dashboard' %}">Go back</a>
+							{% elif request.user.submitter %}
+							<a class="btn btn-outline-secondary" href="{% url 'sub_dashboard' %}">Go back</a>
+
+							{% endif %}
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}

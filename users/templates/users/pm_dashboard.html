@@ -1,0 +1,77 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<main class="content">
+	<div class="container-fluid p-0">
+		{% for message in messages %}
+		<p class="alert alert-success p-2">{{message}}</p>
+		{% endfor %}
+		<div class="row">
+			<div class="col-12">
+				<div class="w-100">
+					<center>	
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title mb-4">Total Projects</h5>
+									<h1 class="display-5">{{projects.count}}</h1>
+									<div class="mb-1">
+									</div>
+								</div>
+							</div>
+						</div>
+					</center>
+				</div>
+				<hr>
+			</div>
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title mb-0">Managed Projects</h5>
+					</div>
+					<div class="card-body py-3">
+						<table id="tickets" class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th>Title</th>
+									<th>Project Manager</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for project in projects %}
+								<tr>
+									<td>{{project.title}}</td>
+									<td>{{project.project_manager}}</td>
+									
+									<td>
+										<ul>
+											<li><a href="{% url 'update_project' project.id %}">Updata</a></li>
+											<li><a href="{% url 'project_details' project.id %}">Details</a></li>
+											<li><a style="color: red;" href="{% url 'delete_project' project.id %}">Delete</a></li>
+
+										</ul>
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+							<tfoot>
+								<tr>
+									<th>Title</th>
+									<th>Project Manager</th>
+									<th>Action</th>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+				<hr>
+			</div>
+			
+		</div>
+
+	</main>
+
+	{% endblock %}		

@@ -1,0 +1,98 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Bug Tracker</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{% static 'userassets/images/icons/favicon.ico' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'userassets/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'userassets/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'userassets/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'userassets/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'userassets/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'userassets/vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'userassets/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'userassets/vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'userassets/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'userassets/css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-form-title" style="background-image: url({% static 'userassets/images/bg-01.jpg' %});">
+					<span class="login100-form-title-1">
+						Sign Up.
+					</span>
+				</div>
+				{% for message in messages %}
+					{% if message.info %}
+					<center><p class="alert alert-danger mt-1 mr-1 ml-1">{{message}}</p></center>
+					
+					{% else %}
+					<center><p class="alert alert-success mt-1 mr-1 ml-1">{{message}}</p></center>
+					{% endif %}
+
+				{% endfor %}
+				<form method="POST" class="login100-form validate-form">
+					{% csrf_token %}
+					{{form|crispy}}
+
+					<div class="flex-sb-m w-full p-b-30">
+						
+						<div>
+							<p>already have an account?</p>
+							<a href="{% url 'login' %}" class="txt1">
+								Login
+							</a>
+						</div>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Sign Up
+						</button>
+
+					</div>
+
+
+				</form>
+				<a class="btn m-2" href="{% url 'demo_selection' %}">Try The Demo</a>				
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<!--===============================================================================================-->
+	<script src="{% static 'userassets/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'userassets/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'userassets/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'userassets/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'userassets/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'userassets/vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'userassets/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'userassets/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'userassets/js/main.js' %}"></script>
+
+</body>
+</html>

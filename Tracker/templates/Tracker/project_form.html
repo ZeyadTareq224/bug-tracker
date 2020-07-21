@@ -1,0 +1,34 @@
+{% extends 'users/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<main class="content">
+	<div class="container-fluid p-0">
+		{% if request.user.admin %}
+		<a class="btn btn-info mb-2" href="{% url 'project_dashboard' %}">Go back</a>
+		{% else %}
+		<a class="btn btn-info mb-2" href="{% url 'pm_dashboard' %}">Go back</a>
+		{% endif %}
+
+		{% for message in messages %}
+		<p class="alert alert-success p-2">{{message}}</p>
+		{% endfor %}
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title mb-0">Project Management</h5>
+					</div>
+					<div class="card-body">
+						<form method="POST">
+							{% csrf_token %}
+							{{form|crispy}}
+							<button class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}

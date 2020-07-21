@@ -1,0 +1,173 @@
+{% extends 'users/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<main class="content">
+	<div class="container-fluid p-0">
+		{%for message in messages%}
+		<p class="alert alert-success p-2">{{message}}</p>
+		{% endfor %}
+
+		{% if request.user.groups.get.name == "project_manager" %}
+		<a class="btn btn-info mb-2" href="{% url 'project_details' ticket.project.id %}">Go Back</a>
+		{% elif request.user.developer %}
+		<a class="btn btn-info mb-2" href="{% url 'dev_dashboard' %}">Go Back</a>
+		{% elif request.user.admin %}
+		<a class="btn btn-info mb-2" href="{% url 'ticket_dashboard' %}">Go Back</a>
+		{% elif request.user.submitter %}
+		<a class="btn btn-info mb-2" href="{% url 'sub_dashboard' %}">Go Back</a>
+		{% endif %}
+
+		<div class="row">
+			
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">
+						
+						<h5 class="card-title mb-0">{{ticket.project.title}} Ticket details</h5>
+						
+					</div>
+					
+					<div class="card-body">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-lg-12">
+									<div>
+										<h5>Title:</h5>
+										<p style="color: darkblue">{{ticket.title}}</p>
+									</div>
+									<hr>
+									<div>
+										<h5>Description:</h5>
+										<p style="color:darkblue">{{ticket.description}}</p>
+									</div>
+									<hr>
+									<div>
+										<h5>Project Name</h5>
+										<p style="color: darkblue">{{ticket.project.title}}</p>
+									</div>
+									<hr>
+									<div>
+										<h5>Priority:</h5>
+										<p style="color:darkblue">{{ticket.priority}}</p>
+									</div>
+									<hr>
+									<div>
+										<h5>Status:</h5>
+										<p style="color:darkblue">{{ticket.status}}</p>
+									</div>
+									<hr>
+									<div>
+										<h5>Ticket Type:</h5>
+										<p style="color:darkblue">{{ticket.ticket_type}}</p>
+									</div>
+									<hr>
+									<div>
+										<h5>Submitted By:</h5>
+										<p style="color:darkblue">{{ticket.submitters}}</p>
+									</div>
+									<hr>
+									<div>
+										<h5>Date Created:</h5>
+										<p style="color:darkblue">{{ticket.created_at}}</p>
+									</div>
+									<hr>
+									<div>
+										<h5>Date Updated:</h5>
+										<p style="color:darkblue">{{ticket.updated_at}}</p>
+									</div>
+									<hr>
+								</div>	
+							</div>
+							
+						</div>
+					</div>
+					<div class="card-action">
+						<center>
+							{% if request.user.developer %}
+							
+							
+							<a class="btn btn-primary mb-3 ml-2" href="{% url 'ticket_status_update' ticket.id %}">Update </a>
+							{% endif %}
+							{% if request.user.submitter or request.user.groups.get.name == "project_manager" or request.user.admin %}
+							<a class="btn btn-primary mb-3 ml-2" href="{% url 'ticket_update' ticket.id %}">Update </a>
+							<a class="btn btn-danger mb-3 ml-2" href="{% url 'ticket_delete' ticket.id %}">Delete</a>
+							{% endif %}
+							
+						</center>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">
+						
+						<h5 class="card-title mb-0">Contribute with your POV.</h5>
+						
+					</div>
+					
+					<div class="card-body">
+						<div class="container-fluid">
+							<div class="card">
+								<div class="card-body">
+									<form method="POST">
+										{% csrf_token %}
+										{{form|crispy}}
+										<button class="btn btn-info">Comment</button>
+									</form>
+								</div>
+							</div>
+						</div>
+						<hr>
+						<table id="table_id" class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th>Commenter</th>
+									<th>Comment</th>
+									<th>Date Created</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								{% for comment in ticket_comments%}
+								<tr>
+									<td>
+										{{comment.commenter.username}}
+										{%if request.user == comment.commenter %}
+										<a href="{% url 'update_comment' comment.id %}">Update</a>
+										<a style="color: red" href="{% url 'delete_comment' comment.id %}">Delete</a>
+										{% endif %}
+									</td>
+									<td>{{comment.comment}}</td>
+									<td>{{comment.created_at}}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+							<tfoot>
+								<tr>
+									<th>Commenter</th>
+									<th>Comment</th>
+									<th>Date Created</th>
+
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</main>
+{% endblock %}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,30 @@
+{% extends 'users/base.html' %}
+{% block content %}
+<main class="content">
+	<div class="container-fluid p-0">
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title mb-0">Delete Project "{{project.title}}"</h5>
+					</div>
+					<div class="card-body">
+						<form method="POST">
+							{% csrf_token %}
+							<p class="alert alert-danger p-2">Note: this action cannot be reversed!!</p>
+							<button class="btn btn-danger">Delete</button>
+							{% if request.user.groups.get.name == "project_manager" %}
+							<a class="btn btn-info" href="{% url 'pm_dashboard' %}">Cancel</a>
+							{% elif request.user.admin %}
+							<a class="btn btn-info" href="{% url 'project_dashboard' %}">Cancel</a>							
+							{% endif %}
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</main>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'users/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<main class="content">
+	<div class="container-fluid p-0">
+
+		<h1 class="h3 mb-3">{{request.user.username}}'s Profile</h1>
+
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title mb-0">Profile Details</h5>
+					</div>
+					<div class="card-body">
+						{% for message in messages %}
+						<p class="alert alert-success p-1">{{message}}</p>
+						{% endfor %}
+						<center>
+							<img style="width: 400px; height: 400px;" class="rounded-circle" src="{{request.user.profile.image.url}}">
+						</center>
+						<form class="form-group" method="POST" enctype="multipart/form-data">
+							{% csrf_token %}
+							{{form|crispy}}
+							<button class="btn btn-primary">Update</button>
+							<a href="{% url 'admin_dashboard' %}">Go Back</a>
+
+						</form>
+						
+						<hr>
+						<div class="row">
+							<div class="col-sm-4">
+								<i class="material-icons">&#xe0be; </i>
+								<h4>Email Adress -> {{request.user.email}}</h4>
+
+							</div>
+							<div class="col-sm-4">
+								<i class="material-icons">&#xe7fd;</i>
+								<h4>Username -> {{request.user.username}}</h4>
+								
+							</div>
+							<div class="col-sm-4">
+								<i class="material-icons">&#xe8c5;</i>
+								<h4>Phone Number -> {{request.user.profile.phone}}</h4>
+								
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</main>
+{% endblock %}
