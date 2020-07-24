@@ -1,8 +1,8 @@
 # bug-tracker
 Admin functions:
-  -view all the users in the system and edit thier EVERYTHIN except passwords
-  -view all the ticket registered in the system by the Ticket Submitter and also can perform full CRUD functionality on them
-  -view all the projects created by the project managers and have full control on them
+  -view all the users in the system and edit thier EVERYTHING except passwords
+  -view all the ticket registered in the system by the Ticket Submitter and also can perform UPDATE, DELETE, VIEW functionality on them
+  -view all the projects created by the project managers and also can perform UPDATE, DELETE, VIEW functionality on them
 
 
 project manager functions:
